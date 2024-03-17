@@ -1,0 +1,9 @@
+config:
+  name: hw04-configmap
+secret:
+  name: hw04-secret
+
+resources:
+  requests:
+    memory: "128Mi"
+    cpu: "0.2"

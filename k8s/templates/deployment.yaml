@@ -1,0 +1,47 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: hw4-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hw4
+  template:
+    metadata:
+      labels:
+        app: hw4
+    spec:
+      containers:
+        - name: hw4
+          image: dmitriyburets1982/hw4:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000         
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 5
+          # mounts configmap and secret volumes to container
+          volumeMounts:
+          - name: config-volume
+            mountPath: /app/config
+            readOnly: true
+          - name: secret-volume
+            mountPath: /app/secret
+            readOnly: true
+      # mounts configmap and secret volumes to pod
+      volumes:
+      - name: config-volume
+        configMap:
+          name: {{ .Values.config.name }}
+      - name: secret-volume
+        secret:
+          secretName: {{ .Values.secret.name }}
+      restartPolicy: Always

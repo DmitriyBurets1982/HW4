@@ -1,0 +1,28 @@
+@HW4_HostAddress = http://localhost:8000
+
+GET {{HW4_HostAddress}}/user/3
+Accept: application/json
+###
+
+POST {{HW4_HostAddress}}/user
+Content-Type: application/json
+
+{
+    "firstName": "Ivan",
+    "lastName": "Ivanov"
+}
+###
+
+PUT {{HW4_HostAddress}}/user
+Content-Type: application/json
+
+{
+    "id": 3,
+    "firstName": "Petr",
+    "lastName": "Petrov"
+}
+###
+
+DELETE {{HW4_HostAddress}}/user/4
+Accept: application/json
+###
